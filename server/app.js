@@ -1,11 +1,5 @@
 
 var fs = require("fs");
-
-var myData = {
-  name:'test',
-  version:'1.0'
-}
-
 var outputFilename = 'my.json';
 var wstream = fs.createWriteStream(outputFilename);
 
