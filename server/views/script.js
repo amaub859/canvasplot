@@ -8,50 +8,10 @@ var scaleY = 2.5/3;
 var time = 8;
 var debug = false;
 
+
 for(var i = 0; i < width; i++) {
   pointArray[i] = new Array(height);
 }
-
-window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-
-function errorHandler(e) {
-  var msg = '';
-  switch (e.message) {
-    case FileError.QUOTA_EXCEEDED_ERR:
-      msg = 'QUOTA_EXCEEDED_ERR';
-      break;
-    case FileError.NOT_FOUND_ERR:
-      msg = 'NOT_FOUND_ERR';
-      break;
-    case FileError.SECURITY_ERR:
-      msg = 'SECURITY_ERR';
-      break;
-    case FileError.INVALID_MODIFICATION_ERR:
-      msg = 'INVALID_MODIFICATION_ERR';
-      break;
-    case FileError.INVALID_STATE_ERR:
-      msg = 'INVALID_STATE_ERR';
-      break;
-    default:
-      msg = e.message;//'Unknown Error';
-      break;
-  };
-  console.log('Error: ' + msg);
-}
-
-// function initFS(grantedBytes) {
-//     window.requestFileSystem(window.TEMPORARY, grantedBytes, function (filesystem) {
-//         fs = filesystem;
-
-//         fs.root.getFile('file.txt', { create: true, exclusive: true }, function (fileEntry) {
-
-//             // fileEntry.isFile === true
-//             // fileEntry.name == 'log.txt'
-//             // fileEntry.fullPath == '/log.txt'
-//             console.log(fileEntry.fullPath);
-//         }, errorHandler);
-//     }, errorHandler);
-// }
 
 function getPoint(x, y) { // x:y 246:268
   var lonDiff = 27 - 3;
@@ -165,19 +125,9 @@ function keyDownListener(e) {
   }
 };
 
-function writeToFile(data) {
-    var fso = new ActiveXObject("Scripting.FileSystemObject");
-    var fh = fso.OpenTextFile("data.txt", 8, false, 0);
-    fh.WriteLine(data);
-    fh.Close();
-}
-
 function init() {
   c = document.getElementById("myCanvas");
   ctx = c.getContext("2d");
-  //initFS(1024*1024);
-  
-            
 
   img = document.getElementById("norden");
   scale = 1.2;
@@ -205,4 +155,10 @@ function init() {
     }
   }
   console.log('amount of points: ' + count);
+
+  //var data = !{SMHIData};
+  //success: function(SMHIData) {
+  //    console.log(SMHIData);
+  //}
+
 }
