@@ -5,16 +5,21 @@ var localJsonFile = 'my.json';
 
 //------------READ JSON-----------//
 
-fs.readFile(localJsonFile, 'utf8', function (err, data) {
-  if (err) {
-    console.log('Error: ' + err);
-    return;
-  }
+function readJson(fileName){
 
-  data = JSON.parse(data);
+	fs.readFile(fileName, 'utf8', function (err, data) {
+	  if (err) {
+	    console.log('Error: ' + err);
+	    return;
+	  }
 
-  console.dir(data);
-});
+	  data = JSON.parse(data);
+
+	  console.dir(data);
+	});
+}
+
+//readJson(localJsonFile);
 
 //--------------------------------//
 
