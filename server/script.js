@@ -8,7 +8,6 @@ var scaleY = 2.5;
 var time = 8;
 var debug = false;
 
-
 for(var i = 0; i < width; i++) {
   pointArray[i] = new Array(height);
 }
@@ -123,4 +122,8 @@ function init() {
     }
   }
   console.log('amount of points: ' + count);
+
+
+  //alert(!{SMHIData});
+  //console.log(points);
 }
