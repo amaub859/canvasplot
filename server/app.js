@@ -1,25 +1,31 @@
 
 var fs = require("fs");
-var localJsonFile = 'my.json';
+var localJsonFile = './my.json';
 
 
 //------------READ JSON-----------//
 
 function readJson(fileName){
 
-	fs.readFile(fileName, 'utf8', function (err, data) {
-	  if (err) {
-	    console.log('Error: ' + err);
-	    return;
-	  }
+	var jsonObj = require(fileName);
+	//console.log(jsonObj);
+	return jsonObj;
 
-	  data = JSON.parse(data);
+	// fs.readFile(fileName, 'utf8', function (err, data) {
+	//   if (err) {
+	//     console.log('Error: ' + err);
+	//     return;
+	//   }
 
-	  console.dir(data);
-	});
+	//   data = JSON.parse(data);
+
+	//   return data;
+	//   //console.dir(data);
+	// });
 }
 
-//readJson(localJsonFile);
+var jsonData = readJson(localJsonFile);
+console.dir(jsonData);
 
 //--------------------------------//
 
