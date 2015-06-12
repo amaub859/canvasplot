@@ -1,16 +1,29 @@
 
 var fs = require("fs");
-var outputFilename = 'my.json';
-var wstream = fs.createWriteStream(outputFilename);
+var localJsonFile = 'my.json';
 
+
+//------------READ JSON-----------//
+
+fs.readFile(localJsonFile, 'utf8', function (err, data) {
+  if (err) {
+    console.log('Error: ' + err);
+    return;
+  }
+
+  data = JSON.parse(data);
+
+  console.dir(data);
+});
+
+//--------------------------------//
+
+
+
+//-----------WRITE JSON-----------//
+var wstream = fs.createWriteStream(localJsonFile);
 var request = require("request");
 
-/*
-$.getJSON(url, function(data) {
-    console.log(data);
-    //temp = data;
-  });
-*/
 var http = require('http');
 var responses = [];
 var completed = 0;
@@ -52,27 +65,6 @@ for(var x = xStart; x < xEnd; x++){ // 244
 		//}
 	}
 }
+//--------------------------------//
 
-//wstream.end();
-/*
-		wstream.write(JSON.stringify(myData, null, 4), function(err) {
-		    if(err) {
-		      console.log(err);
-		    } else {
-		      console.log("JSON saved to " + outputFilename);
-		    }
-		});  
-		
-		wstream.end();
-*/
-
-/*
-       fs.appendFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-		    if(err) {
-		      console.log(err);
-		    } else {
-		      console.log("JSON saved to " + outputFilename);
-		    }
-		}); 
-*/
 
