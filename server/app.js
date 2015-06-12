@@ -4,11 +4,14 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var path = require("path");
-var server = require('http').createServer(app);
+//var server = require('http').createServer(app);
 //var io = require('socket.io')(server);
 //app.use(express.static(__dirname + '../client/'));
 //app.use(express.static(path.join(__dirname, '')));
-//app.set('views', __dirname);
+
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 var getSMHIData = false;
 
@@ -31,14 +34,19 @@ var completed = 0;
 
 //app.use(express.logger());
 //app.set("view options", {layout: false});
-app.use(express.static(path.join(__dirname, 'views/')));
+app.use(express.static(path.join(__dirname, 'views')));
 //app.use(express.static(__dirname + '../client'));
 
-app.get('/', function(req, res){
-    res.render('index.html', { 
-    	locals: {
-    		SMHIData: '1234'
-    	}
+app.get('/jade', function(req, res){
+    res.render('test.jade', { 
+    	data: 3
+    });
+});
+
+app.set('view engine', 'html');
+app.get('/html', function(req, res){
+    res.render('index', { 
+    	data: 4
     });
 });
 

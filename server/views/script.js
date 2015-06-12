@@ -160,5 +160,5 @@ function init() {
   //success: function(SMHIData) {
   //    console.log(SMHIData);
   //}
-
+  //console.log(!{data});
 }
