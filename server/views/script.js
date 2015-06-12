@@ -123,4 +123,10 @@ function init() {
     }
   }
   console.log('amount of points: ' + count);
+
+  //var data = !{SMHIData};
+  //success: function(SMHIData) {
+  //    console.log(SMHIData);
+  //}
+
 }

@@ -1,79 +1,59 @@
 var fs = require("fs");
-var http = require('http');
+//var http = require('http');
 var express = require('express');
 var app = express();
 var router = express.Router();
 var path = require("path");
+var server = require('http').createServer(app);
+//var io = require('socket.io')(server);
 //app.use(express.static(__dirname + '../client/'));
-app.use(express.static(path.join(__dirname, '')));
-app.set('views', __dirname);
+//app.use(express.static(path.join(__dirname, '')));
+//app.set('views', __dirname);
 
 var getSMHIData = false;
 
-var myData = {
-  name:'test',
-  version:'1.0'
+var localJsonFile = './my.json';
+
+
+//------------READ JSON-----------//
+
+function readJson(fileName){
+	var jsonObj = require(fileName);
+	return jsonObj;
 }
 
-var outputFilename = 'my.json';
-var wstream = fs.createWriteStream(outputFilename);
+var jsonData = readJson(localJsonFile);
 
 var request = require("request");
 
-/*
-$.getJSON(url, function(data) {
-    console.log(data);
-    //temp = data;
-  });
-*/
 var responses = [];
 var completed = 0;
 
+//app.use(express.logger());
+//app.set("view options", {layout: false});
+app.use(express.static(path.join(__dirname, 'views/')));
+//app.use(express.static(__dirname + '../client'));
 
-app.get('/', function(req, res) {
-	res.send('hello world');
+app.get('/', function(req, res){
+    res.render('index.html', { 
+    	locals: {
+    		SMHIData: '1234'
+    	}
+    });
+});
+
+//app.get('/', function(req, res) {
+//	res.send('hello world');
 	//res.render('index.html', { SMHIData: 'test' });
 	//res.sendFile('my.json');
-});
+//});
 app.get('/json', function(req, res) {
-	res.send(JSON.stringify('/Users/christoferarleryd/Programming/canvasplot/canvasplot/server/my.json'));
+	res.send(JSON.stringify(jsonData));
 	//res.render('index.html', { SMHIData: 'test' });
 	//res.sendFile('my.json');
 });
-
-app.post('/', function (req, res) {
-  res.send('Got a POST request');
-});
-
 app.listen(8080);
 
-/*fs.readFile('../client/index.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(8080);
-});*/
-
-// Create the server. Function passed as parameter is called on every request made.
-// request variable holds all request parameters
-// response variable allows you to do anything with response sent to the client.
-/*http.createServer(function (request, response) {
-	// Write headers to the response.
-	// 200 is HTTP status code (this one means success)
-	// Second parameter holds header fields in object
-	// We are sending plain text, so Content-Type should be text/plain
-	response.writeHead(200, {
-		'Content-Type': 'text/plain'
-	});
-	// Send data and end response.
-	response.end('Hello HTTP!');
-// Listen on the 8080 port.
-}).listen(8080);
-*/
 function requestPoint(url) {
 	request({
 	    url: url,
@@ -114,29 +94,4 @@ if(getSMHIData) {
 		}
 	}
 }
-
-
-
-//wstream.end();
-/*
-		wstream.write(JSON.stringify(myData, null, 4), function(err) {
-		    if(err) {
-		      console.log(err);
-		    } else {
-		      console.log("JSON saved to " + outputFilename);
-		    }
-		});  
-		
-		wstream.end();
-*/
-
-/*
-       fs.appendFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-		    if(err) {
-		      console.log(err);
-		    } else {
-		      console.log("JSON saved to " + outputFilename);
-		    }
-		}); 
-*/
 
