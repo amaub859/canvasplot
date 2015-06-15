@@ -2,7 +2,7 @@ doctype html
 html
 script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js').
 script(type='text/javascript').
-	console.log(!{data});
+	var SMHIData = !{JSON.stringify(data)}
 	var width = 246;
 	var height = 268;
 	var offsetX = 120;
@@ -13,40 +13,11 @@ script(type='text/javascript').
 	var time = 8;
 	var debug = false;
 
-
 	for(var i = 0; i < width; i++) {
 		pointArray[i] = new Array(height);
 	}
 
-	function getPoint(x, y) { // x:y 246:268
-	  var lonDiff = 27 - 3;
-	  var latDiff = 70 - 55;
-
-	  var xCount = lonDiff / width;
-	  var yCount = latDiff / height;
-
-	  var longitude = 3 + xCount * x;
-	  var latitude = 55 + yCount * y;
-
-	  var getURL = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/1/geopoint/lat/"
-	   + Math.round(latitude*100) / 100 + "/lon/" + Math.round(longitude*100) / 100 + "/data.json";
-
-	  if(!debug) {
-	    var temp;
-	    $.getJSON(getURL, function(data) {
-	      //writeToFile(data);
-	      //console.log(data);
-	      temp = data;
-	    })
-	    .success(function()   { pointArray[x][y] = temp; })
-	    .error(function()     { console.log("could not fetch longitude: " + longitude + " latitude: " + latitude)
-	      pointArray[x][y] = 0 })
-	    .complete(function()  {});
-	  }
-	  else {
-	    pointArray[x][y] = 1;
-	  }
-	}
+	console.log(SMHIData);
 
 	function draw(time) {
 	  //console.log('time: ' + pointArray[101][101].timeseries[time].validTime.toString());
@@ -117,17 +88,6 @@ script(type='text/javascript').
 	  width = 246;
 	  height = 268;
 	  var count = 0;
-
-	  for(var x = 0; x < width; x += 40) {
-	    for(var y = 0; y < height; y += 40) {
-	      //console.log('asdf');
-	      if(x >= 100 && x <= 160 && y >= 100 && y <= 160) {
-	        getPoint(x, y);
-	      }
-	      count++;
-	    }
-	  }
-	  console.log('amount of points: ' + count);
 	}
 body(onload='init()')
 	canvas#myCanvas(width='2000', height='1400', style='border:1px solid #000000;')
