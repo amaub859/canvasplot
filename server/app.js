@@ -2,15 +2,15 @@ var fs = require("fs");
 var express = require('express');
 var app = express();
 var router = express.Router();
-//var path = require("path");
+var path = require("path");
 
 //app.set('views', __dirname + '/views');
 //app.engine('html', require('ejs').renderFile);
 //app.set('view engine', 'html');
 
-var getSMHIData = true;
+var getSMHIData = false;
 
-var localJsonFile = '../smhi_data_30_230_5_255.json';
+var localJsonFile = './my.json';
 
 
 //------------READ JSON-----------//
@@ -20,7 +20,14 @@ function readJson(fileName){
 	return jsonObj;
 }
 
-//var jsonData = readJson(localJsonFile);
+var jsonData = require(localJsonFile);//readJson(localJsonFile);
+//var obj = JSON.parse(fs.readFileSync(localJsonFile, 'utf8'));
+
+/*var obj;
+fs.readFile(localJsonFile, 'utf8', function (err, data) {
+  if (err) throw err;
+  obj = JSON.parse(data);
+});*/
 
 var request = require("request");
 
@@ -29,11 +36,11 @@ var completed = 0;
 
 var wstream = fs.createWriteStream('./my.json');
 
-//app.use(express.static(path.join(__dirname, 'views')));
-/*
+app.use(express.static(path.join(__dirname, 'views')));
+
 app.get('/jade', function(req, res){
     res.render('test.jade', { 
-    	data: 3
+    	data: jsonData
     });
 });
 
@@ -55,7 +62,7 @@ app.get('/json', function(req, res) {
 	//res.sendFile('my.json');
 });
 app.listen(8080);
-*/
+
 function requestPoint(url) {
 	request({
 	    url: url,
@@ -63,18 +70,21 @@ function requestPoint(url) {
 	}, function (error, response, body) {
 		//console.log(JSON.stringify(body, null, 4));
 		if(!error && response.statusCode === 200) {
-			wstream.write(JSON.stringify(body, null, 4) + '\n');
+			wstream.write(JSON.stringify(body, null, 8) + ',\n');
 		}
 	    else console.log('ERR: ' + error + ' ' + body + ' ' + url);
 	})
 }
 
 xStart = 30; // 4
-xEnd = 230; // 244
+xEnd = 34;//230; // 244
 yStart = 5; // 10
-yEnd = 255; // 250
+yEnd = 7;//255; // 250
 
 if(getSMHIData) {
+	var jsoninit = '{\n' + '\t"SMHIPoints": [\n\t';
+	wstream.write(jsoninit);
+
 	for(var x = xStart; x < xEnd; x += 2){ // 244
 	    for(var y = yStart; y < yEnd; y += 2){ // 250
 	    	//if((x == xStart || x == xEnd-1) || (y == yStart || y == yEnd-1)) {
@@ -92,5 +102,6 @@ if(getSMHIData) {
 			//}
 		}
 	}
+	//wstream.write('\t]\n}');
 }
 
