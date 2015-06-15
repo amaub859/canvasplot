@@ -10,7 +10,7 @@ var path = require("path");
 
 var getSMHIData = false;
 
-var localJsonFile = './my.json';
+var localJsonFile = '../smhi_data_every5.json';
 
 
 //------------READ JSON-----------//
@@ -20,7 +20,7 @@ function readJson(fileName){
 	return jsonObj;
 }
 
-var jsonData = 3;//require(localJsonFile);//readJson(localJsonFile);
+var jsonData = require(localJsonFile);//readJson(localJsonFile);
 //var obj = JSON.parse(fs.readFileSync(localJsonFile, 'utf8'));
 
 /*var obj;
