@@ -15,7 +15,7 @@ app.set('view engine', 'html');
 
 var getSMHIData = false;
 
-var localJsonFile = './my.json';
+var localJsonFile = '../smhi_data_30_230_5_255.json';
 
 
 //------------READ JSON-----------//
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 
 app.get('/jade', function(req, res){
     res.render('test.jade', { 
-    	data: 3
+    	data: jsonData
     });
 });
 
