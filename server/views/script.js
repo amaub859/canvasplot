@@ -48,16 +48,18 @@ function getPoint(x, y) { // x:y 246:268
 function drawPoints(time) 
 {
   //console.log('time: ' + pointArray[101][101].timeseries[time].validTime.toString());
+  //ctx.clear();
+  //ctx.beginPath();
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(img,-150*scale,10, img.width*scale, img.height*scale);
 
   //ctx.font="30px Georgia";
   //ctx.fillText(pointArray[101][101].timeseries[time].validTime.toString(), img.width*scale/2 - 250, 			img.height*scale + 40);
-
+  //246 268
    for(var x = 0; x < 246; x++){
     for(var y = 0; y < 268; y++){
       var color;
-      
+
       if(pointArray[x][y] != 0) 
       {
           if(!debug) 
@@ -65,8 +67,8 @@ function drawPoints(time)
 	          xValue = scaleX * (offsetX + x * 2);
 	          yValue = scaleY * (offsetY + 268 * 2 - (y * 2));
 			  
-			  if(parameter == "t")
-			  {
+			     if(parameter == "t")
+			     {  
 	          	  var temp = pointArray[x][y].timeseries[time].t * 100 / 100;
 	          	  //console.log(temp);
 		          if(temp <= 0)
@@ -83,9 +85,11 @@ function drawPoints(time)
 		            color = '255,0,0';
 		          else
 		          	color = '0,0,0';
+
+              circle(xValue, yValue, 15, color, alpha);
 	          }
 	          
-	          else if(parameter == "vis")
+	          else if(parameter == "tcc_mean")
 	          {
 	          	color = '0,0,0';
 		        var temp = pointArray[x][y].timeseries[time].tcc_mean;
@@ -106,7 +110,35 @@ function drawPoints(time)
 		            alpha = 0.7;
 		          else
 		            alpha = 0.8;
+
+              circle(xValue, yValue, 15, color, alpha);
 	          }
+
+            else if(parameter == "wd")
+            {
+              color = '0,0,0';
+            var temp = pointArray[x][y].timeseries[time].wd;
+            var temp2 = pointArray[x][y].timeseries[time].ws;
+              //console.log(temp2);
+              if(temp == 1)
+                alpha = 0.1;
+              else if(temp == 2)
+                alpha = 0.2;
+              else if(temp == 3)
+                alpha = 0.3;
+              else if(temp == 4)
+                alpha = 0.4;
+              else if(temp == 5)
+                alpha = 0.5;
+              else if(temp == 6)
+                alpha = 0.6;
+              else if(temp == 7)
+                alpha = 0.7;
+              else
+                alpha = 0.8;
+
+              drawArrowAtAngle(xValue,yValue,temp2,toRadians(temp));
+            }
 	          //var hexTemp = (temp * 10).toString(16);
 	          //var hex = "#00" + (hexTemp.length == 1 ? ) + "ff";
 	
@@ -123,7 +155,11 @@ function drawPoints(time)
 		  }
 
         //console.log('x: ' + x + ' y: ' + y + ' temperature time 0: ' + temp);a
-        circle(xValue, yValue, 15, color, alpha);
+
+        //circle(xValue, yValue, 15, color, alpha);
+        //console.log(xValue,yValue);
+        //canvas_arrow(xValue,yValue,xValue + 10,yValue + 10, toRadians(-45));
+        
         //ctx.fillRect(xValue, yValue, 10, 10);
 
         //ctx.font="12px Georgia";
@@ -131,7 +167,12 @@ function drawPoints(time)
       }
     }
   }
-  ctx.fill();
+  //ctx.fill();
+}
+
+function toRadians(degrees){
+    radians = degrees * (Math.PI/180);
+    return radians;
 }
 
 function circle(x, y, r, c, a) {
@@ -143,6 +184,50 @@ function circle(x, y, r, c, a) {
     ctx.arc(x, y, r, 0, Math.PI*2, false);
     ctx.fill();
 }
+
+function drawArrowAtAngle(cx,cy,lenght,angle)
+{
+    ctx.save();
+    ctx.translate(cx,cy) ;
+    ctx.rotate(angle) ;
+    ctx.translate(-cx,-cy) ;  
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#aaa';
+    ctx.moveTo(cx+lenght,cy-2);
+    ctx.lineTo(cx-lenght,cy-2);
+    ctx.lineTo(cx-(lenght + 5),cy);
+    ctx.lineTo(cx-lenght,cy+2);
+    ctx.lineTo(cx+lenght,cy+2);
+    ctx.lineTo(cx+lenght,cy-2);  
+    ctx.stroke();
+    ctx.closePath();
+    ctx.restore();  
+    ctx.fillStyle = 'red';
+    ctx.fill();
+}
+
+    function drawCircle(canvasContext, circle, text) {
+        canvasContext.beginPath(); //começa ou reinicia o desenho de algo       
+        canvasContext.fillStyle = "rgb(43,166,203)";
+        canvasContext.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI, false); //cria arcos     
+        canvasContext.fill(); //atribui estilos
+
+        drawText(canvasContext, circle, text);
+    }
+
+    function drawText(canvasContext, circle, text) {
+        canvasContext.font = '8pt Calibri';
+        canvasContext.fillStyle = 'white';
+        canvasContext.textAlign = 'center';
+        canvasContext.fillText(text, circle.x, circle.y + 3);
+    }
+
+    function drawLine(canvasContext) {
+        canvasContext.moveTo(50, 50);
+        canvasContext.lineTo(100, 100);
+        canvasContext.stroke();
+    }
 
 
 function keyDownListener(e) {
@@ -170,7 +255,11 @@ function keyDownListener(e) {
         drawPoints(time);
         break;
       case 50: // right
-        parameter = 'vis';
+        parameter = 'tcc_mean';
+        drawPoints(time);
+        break;
+      case 51: // right
+        parameter = 'wd';
         drawPoints(time);
         break;
   }
