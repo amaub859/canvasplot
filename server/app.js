@@ -20,7 +20,7 @@ function readJson(fileName){
 	return jsonObj;
 }
 
-var jsonData = require(localJsonFile);//readJson(localJsonFile);
+var jsonData = 3;//require(localJsonFile);//readJson(localJsonFile);
 //var obj = JSON.parse(fs.readFileSync(localJsonFile, 'utf8'));
 
 /*var obj;
@@ -33,8 +33,6 @@ var request = require("request");
 
 var responses = [];
 var completed = 0;
-
-var wstream = fs.createWriteStream('./my.json');
 
 app.use(express.static(path.join(__dirname, 'views')));
 
@@ -77,16 +75,17 @@ function requestPoint(url) {
 }
 
 xStart = 30; // 4
-xEnd = 34;//230; // 244
+xEnd = 230; // 244
 yStart = 5; // 10
-yEnd = 7;//255; // 250
+yEnd = 255; // 250
 
 if(getSMHIData) {
+	var wstream = fs.createWriteStream('./my.json');
 	var jsoninit = '{\n' + '\t"SMHIPoints": [\n\t';
 	wstream.write(jsoninit);
 
-	for(var x = xStart; x < xEnd; x += 2){ // 244
-	    for(var y = yStart; y < yEnd; y += 2){ // 250
+	for(var x = xStart; x < xEnd; x += 5){ // 244
+	    for(var y = yStart; y < yEnd; y += 5){ // 250
 	    	//if((x == xStart || x == xEnd-1) || (y == yStart || y == yEnd-1)) {
     		//console.log("coords: " + x + ', ' + y);
 	    	var latitude = 70.5 - y * (18/268);
