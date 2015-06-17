@@ -37,7 +37,7 @@ var completed = 0;
 app.use(express.static(path.join(__dirname, 'views')));
 
 app.get('/jade', function(req, res){
-    res.render('test.jade', { 
+    res.render('index.jade', { 
     	data: jsonData
     });
 });
