@@ -8,9 +8,9 @@ var path = require("path");
 //app.engine('html', require('ejs').renderFile);
 //app.set('view engine', 'html');
 
-var getSMHIData = false;
+var getSMHIData = true;
 
-var localJsonFile = '../smhi_data_every5.json';
+var localJsonFile = '../smhi_data_every10.json';
 
 
 //------------READ JSON-----------//
@@ -20,7 +20,7 @@ function readJson(fileName){
 	return jsonObj;
 }
 
-var jsonData = require(localJsonFile);//readJson(localJsonFile);
+//var jsonData = require(localJsonFile);//readJson(localJsonFile);
 //var obj = JSON.parse(fs.readFileSync(localJsonFile, 'utf8'));
 
 /*var obj;
