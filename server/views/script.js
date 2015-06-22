@@ -10,7 +10,7 @@ var parameter = "t";
 var alpha = 0.6;
 var debug = false;
 
-console.log(!{data});
+//console.log(!{data});
 
 for(var i = 0; i < width; i++) {
     pointArray[i] = new Array(height);
@@ -117,28 +117,39 @@ function drawPoints(time)
 
                     else if(parameter == "wd")
                     {
-                        color = '0,0,0';
                         var temp = pointArray[x][y].timeseries[time].wd;
                         var temp2 = pointArray[x][y].timeseries[time].ws;
-                        //console.log(temp2);
-                        if(temp == 1)
-                            alpha = 0.1;
-                        else if(temp == 2)
-                            alpha = 0.2;
-                        else if(temp == 3)
-                            alpha = 0.3;
-                        else if(temp == 4)
-                            alpha = 0.4;
-                        else if(temp == 5)
-                            alpha = 0.5;
-                        else if(temp == 6)
-                            alpha = 0.6;
-                        else if(temp == 7)
-                            alpha = 0.7;
-                        else
-                            alpha = 0.8;
+                          //console.log(temp2);
+                          if(temp2 <= 0.2) //Lugnt
+                            color = 'rgb(241, 241 , 241)';
+                          else if(temp2 > 0.2 && temp2 <= 1.5) //Svag vind
+                            color = 'rgb(241, 198 , 205)';
+                          else if(temp2 > 1.5 && temp2 <= 3.3) //Svag vind
+                            color = 'rgb(230, 165 , 173)';
+                          else if(temp2 > 3.3 && temp2 <= 5.4) //Måttlig vind
+                            color = 'rgb(217, 129 , 141)';
+                          else if(temp2 > 5.4 && temp2 <= 7.9) //Måttlig vind
+                            color = 'rgb(203, 95 , 111)';
+                          else if(temp2 > 7.9 && temp2 <= 10.7) //Frisk vind
+                            color = 'rgb(172, 84 , 96)';
+                          else if(temp2 > 10.7 && temp2 <= 13.8) //Frisk vind
+                            color = 'rgb(140, 72 , 83)';
+                          else if(temp2 > 13.8 && temp2 <= 17.1) //Hård vind
+                            color = 'rgb(110, 63 , 71)';
+                          else if(temp2 > 17.1 && temp2 <= 20.7) //Hård vind
+                            color = 'rgb(78, 53 , 57)';
+                          else if(temp2 > 20.7 && temp2 <= 24.4) //Hård vind
+                            color = 'rgb(241, 241 , 241)';
+                          else if(temp2 > 24.4 && temp2 <= 28.4) //Storm
+                            color = 'rgb(241, 241 , 241)';
+                          else if(temp2 > 28.4 && temp2 <= 32.6) //Storm
+                            color = 'rgb(241, 241 , 241)';
+                          else if(temp2 > 32.6) //Orkan
+                            color = 'rgb(241, 241 , 241)';
+                          else
+                            color = 'rgb(0, 0 , 0)';
 
-                        drawArrowAtAngle(xValue,yValue,temp2,toRadians(temp));
+                          drawArrowAtAngle(xValue,yValue,temp2,toRadians(temp),color);
                     }
                     //var hexTemp = (temp * 10).toString(16);
                     //var hex = "#00" + (hexTemp.length == 1 ? ) + "ff";
@@ -165,6 +176,7 @@ function drawPoints(time)
 
                 //ctx.font="12px Georgia";
                 //ctx.fillText(temp.toString(), scaleX * (offsetX + x * 2 - 2), scaleY * (offsetY + 268 * 2 - (y * 2 - 2)));
+
             }
         }
     }
@@ -186,27 +198,29 @@ function circle(x, y, r, c, a) {
             ctx.fill();
             }
 
-            function drawArrowAtAngle(cx,cy,lenght,angle)
-            {
-                ctx.save();
-                ctx.translate(cx,cy) ;
-                ctx.rotate(angle) ;
-                ctx.translate(-cx,-cy) ;  
-                ctx.beginPath();
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = '#aaa';
-                ctx.moveTo(cx+lenght,cy-2);
-                ctx.lineTo(cx-lenght,cy-2);
-                ctx.lineTo(cx-(lenght + 5),cy);
-                ctx.lineTo(cx-lenght,cy+2);
-                ctx.lineTo(cx+lenght,cy+2);
-                ctx.lineTo(cx+lenght,cy-2);  
-                ctx.stroke();
-                ctx.closePath();
-                ctx.restore();  
-                ctx.fillStyle = 'red';
-                ctx.fill();
-            }
+
+function drawArrowAtAngle(cx,cy,lenght,angle,color)
+{
+    ctx.save();
+    ctx.translate(cx,cy) ;
+    ctx.rotate(angle) ;
+    ctx.translate(-cx,-cy) ;  
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#aaa';
+    ctx.moveTo(cx+lenght,cy-2);
+    ctx.lineTo(cx-lenght,cy-2);
+    ctx.lineTo(cx-(lenght + 5),cy);
+    ctx.lineTo(cx-lenght,cy+2);
+    ctx.lineTo(cx+lenght,cy+2);
+    ctx.lineTo(cx+lenght,cy-2);  
+    ctx.stroke();
+    ctx.closePath();
+    ctx.restore();  
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+
 
 function drawCircle(canvasContext, circle, text) {
     canvasContext.beginPath(); //começa ou reinicia o desenho de algo       
